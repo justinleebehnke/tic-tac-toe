@@ -60,12 +60,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .tile {
-    border: 2px solid lightgray;
+    border: 1px solid gray;
+    background-color: #FFFCFC;
     width: 35px;
     height: 35px;
 }
 .eligible {
-    border: 2px solid green;
+    border: 1px solid lightgreen;
+    background-color: #FFFCFC;
 }
 .selected {
     font-size: 33px;    

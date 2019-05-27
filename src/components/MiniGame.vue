@@ -1,11 +1,5 @@
 <template>
     <div class="gameWrapper">
-        <div v-if="!winner" class="gameHeader">
-            <h1>Current Turn: {{currentTurn}}</h1>
-        </div>
-        <div v-else class="gameHeader">
-            <h1>Winner {{currentTurn}}</h1>
-        </div> 
         <div class="minigame">
             <Tile 
                 v-for="tile in this.tiles" :key="tile.id"
@@ -54,9 +48,7 @@ export default {
                             this.currentTurn = (this.currentTurn === 'O')? 'X' : 'O'
                         } else {
                             this.winner = this.currentTurn
-                            this.tiles.forEach(tile => {
-                                tile.isEligible = false
-                            })
+                            this.toggleEligibilityOnUnFilledTiles()
                         }
                     }
                 }
@@ -94,6 +86,13 @@ export default {
             return this.tiles[index1].type && 
             this.tiles[index1].type === this.tiles[index2].type && 
             this.tiles[index2].type === this.tiles[index3].type
+        },
+        toggleEligibilityOnUnFilledTiles() {
+            this.tiles.forEach(tile => {
+                if (tile.type === '') {
+                    tile.isEligible = !tile.isEligible
+                }
+            })
         }
     }
 }
@@ -103,9 +102,12 @@ export default {
 .gameWrapper {
     display: block;
     text-align: center;
+    max-width: 113px;
 }
 .minigame {
-    max-width: 9px;
+    border: 1px solid lightgreen;
+    margin: auto;
+    max-width: 113px;
     display: grid;
     grid-template-columns: auto auto auto;
 }

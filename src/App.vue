@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <MiniGame></MiniGame>
+    <Game></Game>
   </div>
 </template>
 
 <script>
-import MiniGame from './components/MiniGame'
+import Game from './components/Game'
 export default {
   name: 'app',
   components: {
-    MiniGame
+    Game
   }
 }
 </script>
