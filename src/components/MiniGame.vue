@@ -1,6 +1,14 @@
 <template>
     <div class="gameWrapper">
-        <div class="minigame">
+        <div v-if="winner" class="gameOver">
+            <div v-if="winner === 'X'" class="x">
+                {{this.winner}}
+            </div>
+            <div v-else class="o">
+                {{this.winner}}
+            </div>
+        </div>
+        <div v-else v-bind:class="gameObject">
             <Tile 
                 v-for="tile in this.tiles" :key="tile.id"
                 :cardID="tile.id"
@@ -16,8 +24,33 @@
 <script>
 import Tile from './Tile'
 export default {
+    props: {
+        currentTurn: {
+            type: String,
+            required: true,
+            validator: function (value) {
+                return ['O', 'X'].indexOf(value) !== -1
+            } 
+        },
+        winner: {
+            type: String,
+            required: true
+        },
+        isEligible: {
+            type: Boolean,
+            required: true
+        }
+    },
     components: {
         Tile
+    },
+    computed: {
+        gameObject () {
+            return {
+                minigame: true,
+                eligible: this.isEligible
+            }
+        }
     },
     data() {
         return {
@@ -32,9 +65,7 @@ export default {
                 {id: 31, type: '', isEligible: true},
                 {id: 32, type: '', isEligible: true},
                 {id: 33, type: '', isEligible: true}
-            ],
-            currentTurn: 'O',
-            winner: ''
+            ]
         }
     },
     methods: {
@@ -45,9 +76,10 @@ export default {
                         tile.type = this.currentTurn
                         tile.isEligible = false
                         if (!this.getVictor()) {
-                            this.currentTurn = (this.currentTurn === 'O')? 'X' : 'O'
+                            this.$emit('advanceTurn')
                         } else {
-                            this.winner = this.currentTurn
+                            this.$emit('winnerFound')
+                            this.$emit('advanceTurn')
                             this.toggleEligibilityOnUnFilledTiles()
                         }
                     }
@@ -104,11 +136,26 @@ export default {
     text-align: center;
     max-width: 113px;
 }
+.gameOver {
+    border: 1px solid grey;
+    width: 111px;
+    height: 111px;
+    font-size: 100px;
+}
+.x {
+    color: red;
+}
+.o {
+    color: black;
+}
 .minigame {
-    border: 1px solid lightgreen;
+    border: 1px solid grey;
     margin: auto;
     max-width: 113px;
     display: grid;
     grid-template-columns: auto auto auto;
+}
+.eligible {
+    border: 1px solid lightgreen;
 }
 </style>
