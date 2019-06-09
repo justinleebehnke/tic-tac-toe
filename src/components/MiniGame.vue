@@ -15,7 +15,7 @@
                 :type="tile.type"
                 :miniGameID="gameID"
                 :currentTurn="currentTurn"
-                :isEligible="tile.isEligible"
+                :isEligible="isEligible"
                 v-on:tileSelected="updateTile(tile.id)">
             </Tile>
         </div>
@@ -31,6 +31,10 @@ export default {
             validator: function (value) {
                 return ['O', 'X'].indexOf(value) !== -1
             } 
+        },
+        gameID: {
+            type: Number,
+            required: true
         },
         winner: {
             type: String,
@@ -132,30 +136,34 @@ export default {
 
 <style>
 .gameWrapper {
+    border: 1px solid black;
     display: block;
     text-align: center;
     max-width: 113px;
+    border: 1px black;
 }
 .gameOver {
-    border: 1px solid grey;
-    width: 111px;
-    height: 111px;
+    width: 113px;
+    height: 113px;
     font-size: 100px;
 }
 .x {
-    color: red;
+    color: white;
 }
 .o {
-    color: black;
+    color: white;
 }
 .minigame {
-    border: 1px solid grey;
+    border: 1px black;
     margin: auto;
-    max-width: 113px;
     display: grid;
     grid-template-columns: auto auto auto;
+    background: black;
 }
 .eligible {
-    border: 1px solid lightgreen;
+    border: 1px solid black;
+}
+.inEligible {
+    border: 1px solid black;
 }
 </style>

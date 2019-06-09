@@ -1,5 +1,5 @@
 <template>
-    <div v-bind:class="tileObject" v-on:click="select()">
+    <div v-bind:class="tileObject" :style="tileStyle" v-on:click="select()">
         {{this.type}}
     </div>
 </template>
@@ -36,14 +36,22 @@ export default {
       }
       
   },
+  data () {
+      return {
+          tileStyle: {
+            borderBottom: (this.cardID < 30) ? (this.isEligible) ? '1px solid white' : '1px solid #292929' : '1px solid black',
+            borderTop: (this.cardID >= 20) ? (this.isEligible) ? '1px solid white' : '1px solid #292929' : '1px solid black',
+            borderRight: (this.cardID % 10 === 1 || this.cardID % 10 === 2) ? (this.isEligible) ? '1px solid white' : '1px solid #292929' : '1px solid black',
+            borderLeft: (this.cardID % 10 === 2 || this.cardID % 10 === 3) ? (this.isEligible) ? '1px solid white' : '1px solid #292929' : '1px solid black',
+            color: (this.isEligible) ? 'white' : '#292929'
+          }
+      }
+  },
   computed: {
       tileObject () {
           return {
               tile: true,
-              eligible: this.isEligible,
-              selected: this.type !== '',
-              x: this.type === 'X',
-              o: this.type === 'O'
+              selected: this.type !== ''
           }
       }
   },
@@ -60,23 +68,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .tile {
-    border: 1px solid gray;
-    background-color: #FFFCFC;
+    border: 1px solid black;
+    background-color: black;
     width: 35px;
     height: 35px;
-}
-.eligible {
-    border: 1px solid lightgreen;
-    background-color: #FFFCFC;
 }
 .selected {
     font-size: 33px;    
 }
-.x {
-    color: red;
-}
-.o {
-    color: black;
-}
-
 </style>

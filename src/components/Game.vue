@@ -4,6 +4,7 @@
         <div id="board">
             <MiniGame
                 v-for="miniGame in this.miniGames" :key="miniGame.id"
+                :gameID="miniGame.id"
                 :currentTurn="currentTurn"
                 v-on:advanceTurn="advanceTurn()"
                 v-on:winnerFound="setWinner(miniGame.id)"
@@ -80,7 +81,7 @@ export default {
             currentTurn: 'O',
             overAllWinner: '',
             miniGames: [
-                {id: 11, winner: '', isEligible: true},
+                {id: 11, winner: '', isEligible: false},
                 {id: 12, winner: '', isEligible: true},
                 {id: 13, winner: '', isEligible: true},
                 {id: 21, winner: '', isEligible: true},
@@ -98,9 +99,8 @@ export default {
 <style>
 #board {
     display: grid;
-    max-width: 343px;
+    max-width: 339px;
     grid-template-columns: auto auto auto;
-    grid-row-gap: 2px;
     margin: auto;
 }
 </style>
